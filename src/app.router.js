@@ -35,12 +35,17 @@ export const appRouter = (app, express) => {
   //   res.setHeader("Acccess-Control-Allow-Private-Network", true);
   //   return next();
   // });
-  app.use(cors()); // allow all origins
+  app.use((req, res, next) => {
+    if (req.originalUrl === "/order/webhook") {
+      return next();
+    }
+    express.json()(req, res, next);
+  }); // allow all origins
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Global Middleware => parsing for req.body
-  app.use(express.json());
+  app.use(express.json()); // parse req.body to json
 
   // Routes
   // auth
