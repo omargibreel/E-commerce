@@ -3,5 +3,5 @@ export const connectDB = async () => {
   await mongoose
     .connect(process.env.CONNECTION_URL)
     .then(() => console.log("DB Connected!"))
-    .catch(() => console.log(`Something Went Wrong!`));
+    .catch(() => console.log(`failed connection!`));
 };
