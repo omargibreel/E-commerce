@@ -82,10 +82,9 @@ export const createOrder = asyncHandler(async (req, res, next) => {
     paid: order.finalPrice,
     invoice_nr: order._id,
   };
-  const pdfPath = path.join(
-    __dirname,
-    `./../../../invoiceTemp/${order._id}.pdf`
-  );
+  const pdfPath = (process.env.STATUS = "dev"
+    ? path.join(__dirname, `./../../../invoiceTemp/${order._id}.pdf`)
+    : `/tmp/${order._id}.pdf`);
   createInvoice(invoice, pdfPath);
   // uplode cloudinary
   const { secure_url, public_id } = await cloudinary.uploader.upload(pdfPath, {
